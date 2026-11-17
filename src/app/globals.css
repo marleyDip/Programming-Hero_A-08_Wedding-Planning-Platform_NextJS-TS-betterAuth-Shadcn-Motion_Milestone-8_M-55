@@ -1,26 +1,153 @@
 @import "tailwindcss";
+@import "tw-animate-css"; /* installed by `npx shadcn@latest init` (Tailwind v4) */
+@import "shadcn/tailwind.css";
 
+/* Dark mode = `.dark` class on <html> (set by next-themes) */
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------ */
+/*  LIGHT THEME  - ivory, blush rose & champagne gold                   */
+/* ------------------------------------------------------------------ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.85rem;
+
+  --background: oklch(0.985 0.008 80);
+  --foreground: oklch(0.24 0.03 20);
+
+  --card: oklch(1 0.003 80);
+  --card-foreground: oklch(0.24 0.03 20);
+  --popover: oklch(0.995 0.004 80);
+  --popover-foreground: oklch(0.24 0.03 20);
+
+  --primary: oklch(0.58 0.2 12);
+  --primary-foreground: oklch(0.99 0.005 80);
+  --secondary: oklch(0.96 0.015 70);
+  --secondary-foreground: oklch(0.3 0.04 20);
+  --muted: oklch(0.96 0.012 75);
+  --muted-foreground: oklch(0.52 0.03 25);
+  --accent: oklch(0.955 0.03 15);
+  --accent-foreground: oklch(0.4 0.14 12);
+  --destructive: oklch(0.58 0.22 27);
+
+  --border: oklch(0.92 0.018 40);
+  --input: oklch(0.92 0.018 40);
+  --ring: oklch(0.65 0.17 12);
+
+  /* Brand */
+  --brand: oklch(0.6 0.2 12);
+  --brand-foreground: oklch(0.99 0.005 80);
+  --brand-soft: oklch(0.95 0.035 12);
+  --gold: oklch(0.76 0.12 80);
+  --success: oklch(0.7 0.16 160);
+
+  /* Logo colours: edit these to recolour the logo in light mode */
+  --logo-from: oklch(0.63 0.2 10);
+  --logo-to: oklch(0.78 0.13 78);
+  --logo-fg: oklch(1 0 0);
+  --logo-accent: oklch(0.36 0.11 10);
 }
 
+/* ------------------------------------------------------------------ */
+/*  DARK THEME  - deep wine / plum with glowing rose-gold               */
+/* ------------------------------------------------------------------ */
+.dark {
+  --background: oklch(0.16 0.02 345);
+  --foreground: oklch(0.96 0.01 60);
+
+  --card: oklch(0.21 0.025 345);
+  --card-foreground: oklch(0.96 0.01 60);
+  --popover: oklch(0.2 0.025 345);
+  --popover-foreground: oklch(0.96 0.01 60);
+
+  --primary: oklch(0.72 0.17 12);
+  --primary-foreground: oklch(0.16 0.02 345);
+  --secondary: oklch(0.26 0.03 345);
+  --secondary-foreground: oklch(0.96 0.01 60);
+  --muted: oklch(0.26 0.03 345);
+  --muted-foreground: oklch(0.72 0.03 30);
+  --accent: oklch(0.3 0.06 8);
+  --accent-foreground: oklch(0.93 0.05 20);
+  --destructive: oklch(0.7 0.19 22);
+
+  --border: oklch(1 0.02 20 / 12%);
+  --input: oklch(1 0.02 20 / 16%);
+  --ring: oklch(0.7 0.16 12);
+
+  /* Brand */
+  --brand: oklch(0.72 0.17 12);
+  --brand-foreground: oklch(0.16 0.02 345);
+  --brand-soft: oklch(0.29 0.07 8);
+  --gold: oklch(0.82 0.12 82);
+  --success: oklch(0.78 0.15 160);
+
+  /* Logo: brighter tile + dark mark so it stands out on dark backgrounds */
+  --logo-from: oklch(0.75 0.16 12);
+  --logo-to: oklch(0.85 0.12 85);
+  --logo-fg: oklch(0.2 0.04 350);
+  --logo-accent: oklch(0.45 0.14 10);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Tailwind token mapping                                              */
+/* ------------------------------------------------------------------ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+  --color-gold: var(--gold);
+  --color-success: var(--success);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Optional: load "Playfair Display" with next/font and expose it as --font-playfair */
+  --font-serif:
+    var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ------------------------------------------------------------------ */
+/*  Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
