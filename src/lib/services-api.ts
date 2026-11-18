@@ -359,3 +359,8 @@ export async function getTestimonials(
       sample: t.sample === true,
     }));
 }
+
+/** Every live service (approved + active, vendor not blocked), best rated first. */
+export function getAllServices(signal?: AbortSignal): Promise<Service[]> {
+  return getFeaturedServices(Number.MAX_SAFE_INTEGER, signal);
+}
