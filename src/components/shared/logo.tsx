@@ -101,7 +101,7 @@ export function Logo({ showText = true }: { showText?: boolean }) {
       {showText && (
         <span className="font-serif text-[1.45rem] font-semibold leading-none tracking-tight text-foreground">
           Wed
-          <span className="bg-gradient-to-r from-(--logo-from) to-(--logo-to) bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-(--logo-from) to-(--logo-to) bg-clip-text text-transparent">
             Plan
           </span>
         </span>

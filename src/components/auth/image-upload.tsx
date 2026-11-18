@@ -47,33 +47,45 @@ const revoke = (url?: string | null) => {
 function uploadWithProgress(
   file: File,
   onProgress: (percent: number) => void,
-  xhrRef: React.MutableRefObject<XMLHttpRequest | null>,
+  xhrRef: React.RefObject<XMLHttpRequest | null>,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhrRef.current = xhr;
+
     xhr.open("POST", "/api/upload");
 
     xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable)
+      if (e.lengthComputable) {
         onProgress(Math.round((e.loaded / e.total) * 100));
+      }
     };
+
     xhr.onload = () => {
       try {
         const data = JSON.parse(xhr.responseText);
-        if (xhr.status >= 200 && xhr.status < 300 && data.url)
+
+        if (xhr.status >= 200 && xhr.status < 300 && data.url) {
           resolve(data.url as string);
-        else reject(new Error(data.error || "Image upload failed"));
+        } else {
+          reject(new Error(data.error || "Image upload failed"));
+        }
       } catch {
         reject(new Error("Image upload failed"));
       }
     };
-    xhr.onerror = () =>
+
+    xhr.onerror = () => {
       reject(new Error("Network error. Check your connection."));
-    xhr.onabort = () => reject(new Error("aborted"));
+    };
+
+    xhr.onabort = () => {
+      reject(new Error("aborted"));
+    };
 
     const fd = new FormData();
     fd.append("image", file);
+
     xhr.send(fd);
   });
 }
@@ -115,9 +127,13 @@ export function ImageUpload({
 
   /* Clean up on unmount */
   useEffect(() => {
+    const token = tokenRef;
+    const xhr = xhrRef.current;
+
     return () => {
-      tokenRef.current++;
-      xhrRef.current?.abort();
+      token.current++;
+      xhr?.abort();
+
       revoke(previewRef.current);
       revoke(prevRef.current?.preview);
     };
@@ -127,6 +143,7 @@ export function ImageUpload({
   const restoreOrReset = useCallback(() => {
     const prev = prevRef.current;
     revoke(previewRef.current);
+
     if (prev) {
       applyPreview(prev.preview);
       setMeta({ name: prev.name, size: prev.size });
@@ -149,6 +166,7 @@ export function ImageUpload({
       // Remember the current good photo so a failed "change" can revert
       if (status === "success" && urlRef.current && previewRef.current) {
         revoke(prevRef.current?.preview);
+
         prevRef.current = {
           url: urlRef.current,
           preview: previewRef.current,
@@ -167,6 +185,7 @@ export function ImageUpload({
       // Swap preview (keep the old blob alive only if it's the restore point)
       if (previewRef.current && previewRef.current !== prevRef.current?.preview)
         revoke(previewRef.current);
+
       applyPreview(URL.createObjectURL(file));
       setMeta({ name: file.name, size: file.size });
       setProgress(0);
@@ -211,10 +230,13 @@ export function ImageUpload({
 
   const pick = (file?: File | null) => {
     if (!file) return;
+
     if (!ACCEPT.split(",").includes(file.type))
       return void toast.error("Please choose a PNG, JPG, WEBP or GIF image");
+
     if (file.size > MAX_SIZE)
       return void toast.error("Image must be smaller than 5 MB");
+
     fileRef.current = file;
     startUpload(file);
   };
@@ -228,11 +250,14 @@ export function ImageUpload({
   const remove = () => {
     tokenRef.current++;
     xhrRef.current?.abort();
+
     revoke(previewRef.current);
     revoke(prevRef.current?.preview);
+
     prevRef.current = null;
     fileRef.current = null;
     urlRef.current = null;
+
     applyPreview(null);
     setMeta(null);
     setProgress(0);
@@ -246,6 +271,7 @@ export function ImageUpload({
 
   /* Ring values */
   const processing = status === "uploading" && progress >= 100;
+
   const shown =
     status === "success"
       ? 100
@@ -254,6 +280,7 @@ export function ImageUpload({
         : status === "error"
           ? 100
           : 0;
+
   const ringStyle =
     status === "success"
       ? { stroke: "var(--success)" }
@@ -286,8 +313,8 @@ export function ImageUpload({
       }}
       className={`relative flex items-center gap-5 overflow-hidden rounded-2xl border-2 border-dashed p-4 transition-colors duration-300 ${containerTone}`}
     >
-      {/* ---------------------------- Avatar + ring ---------------------------- */}
-      <div className="relative h-[104px] w-[104px] shrink-0">
+      {/* Avatar & ring */}
+      <div className="relative h-26 w-26 shrink-0">
         <svg
           viewBox="0 0 120 120"
           className="absolute inset-0 -rotate-90"
@@ -365,7 +392,7 @@ export function ImageUpload({
           onClick={openDialog}
           disabled={status === "uploading"}
           aria-label={preview ? "Change profile photo" : "Upload profile photo"}
-          className="group absolute inset-[10px] overflow-hidden rounded-full bg-muted text-muted-foreground outline-none focus-visible:ring-4 focus-visible:ring-brand/30 disabled:cursor-progress"
+          className="group absolute inset-2.5 overflow-hidden rounded-full bg-muted text-muted-foreground outline-none focus-visible:ring-4 focus-visible:ring-brand/30 disabled:cursor-progress"
         >
           <AnimatePresence mode="wait" initial={false}>
             {preview ? (
@@ -391,7 +418,7 @@ export function ImageUpload({
                 transition={{
                   y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
                 }}
-                className="grid h-full w-full place-items-center bg-gradient-to-br from-brand-soft to-muted text-brand"
+                className="grid h-full w-full place-items-center bg-linear-to-br from-brand-soft to-muted text-brand"
               >
                 <ImagePlus className="h-8 w-8" />
               </motion.span>
@@ -403,7 +430,7 @@ export function ImageUpload({
             <>
               <motion.div
                 aria-hidden
-                className="absolute inset-x-0 h-10 bg-gradient-to-b from-transparent via-white/55 to-transparent"
+                className="absolute inset-x-0 h-10 bg-linear-to-b from-transparent via-white/55 to-transparent"
                 initial={{ top: "-40%" }}
                 animate={{ top: "110%" }}
                 transition={{
@@ -412,6 +439,7 @@ export function ImageUpload({
                   ease: "easeInOut",
                 }}
               />
+
               <span className="absolute inset-0 grid place-items-center text-sm font-bold text-white drop-shadow">
                 {processing ? (
                   <RefreshCw className="h-5 w-5 animate-spin" />
@@ -460,7 +488,7 @@ export function ImageUpload({
         </AnimatePresence>
       </div>
 
-      {/* ------------------------------ Right side ----------------------------- */}
+      {/* Right side */}
       <div className="min-w-0 flex-1" aria-live="polite">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
@@ -478,9 +506,11 @@ export function ImageUpload({
                     (optional)
                   </span>
                 </p>
+
                 <p className="mt-0.5 text-xs text-muted-foreground">
                   Drag &amp; drop or browse · PNG, JPG, WEBP up to 5 MB
                 </p>
+
                 <motion.button
                   type="button"
                   whileHover={{ y: -2 }}
@@ -498,15 +528,18 @@ export function ImageUpload({
                 <p className="text-sm font-semibold">
                   {processing ? "Almost there…" : "Uploading…"}
                 </p>
+
                 <p className="mt-0.5 truncate text-xs text-muted-foreground">
                   {meta?.name} · {meta ? formatSize(meta.size) : ""}
                 </p>
+
                 <div className="relative mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
                   <motion.div
-                    className="h-full rounded-full bg-gradient-to-r from-(--logo-from) to-(--logo-to)"
+                    className="h-full rounded-full bg-linear-to-r from-(--logo-from) to-(--logo-to)"
                     animate={{ width: `${Math.max(shown, 4)}%` }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   />
+
                   <motion.span
                     aria-hidden
                     className="absolute inset-y-0 w-1/4 bg-white/50"
@@ -519,6 +552,7 @@ export function ImageUpload({
                     }}
                   />
                 </div>
+
                 <button
                   type="button"
                   onClick={cancel}
@@ -534,10 +568,12 @@ export function ImageUpload({
                 <p className="flex items-center gap-1.5 text-sm font-semibold text-success">
                   <Check className="h-4 w-4" /> Photo uploaded
                 </p>
+
                 <p className="mt-0.5 truncate text-xs text-muted-foreground">
                   {meta?.name}
                   {meta?.size ? ` · ${formatSize(meta.size)}` : ""}
                 </p>
+
                 <div className="mt-3 flex flex-wrap gap-2">
                   <motion.button
                     type="button"
@@ -547,6 +583,7 @@ export function ImageUpload({
                   >
                     <RefreshCw className="h-3.5 w-3.5" /> Change
                   </motion.button>
+
                   <motion.button
                     type="button"
                     whileTap={{ scale: 0.96 }}
@@ -564,7 +601,9 @@ export function ImageUpload({
                 <p className="text-sm font-semibold text-destructive">
                   Upload failed
                 </p>
+
                 <p className="mt-0.5 text-xs text-muted-foreground">{error}</p>
+
                 <div className="mt-3 flex flex-wrap gap-2">
                   <motion.button
                     type="button"
@@ -576,6 +615,7 @@ export function ImageUpload({
                   >
                     <RefreshCw className="h-3.5 w-3.5" /> Try again
                   </motion.button>
+
                   <button type="button" onClick={remove} className={btn}>
                     <Trash2 className="h-3.5 w-3.5" /> Remove
                   </button>

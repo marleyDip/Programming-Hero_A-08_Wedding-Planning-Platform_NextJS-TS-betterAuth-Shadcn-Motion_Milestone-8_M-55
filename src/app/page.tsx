@@ -1,5 +1,32 @@
+import Categories from "@/components/home/categories";
+import Destinations from "@/components/home/destinations";
+import FeaturedServices from "@/components/home/featured-services";
+import Hero3D from "@/components/home/hero-3d";
+import HowItWorks from "@/components/home/how-it-works";
+import PlanningTips from "@/components/home/planning-tips";
+import Testimonials from "@/components/home/testimonials";
+import WhyChoose from "@/components/home/why-choose";
+
 export default function Home() {
-  return <></>;
+  return (
+    <>
+      <Hero3D />
+
+      <FeaturedServices />
+
+      <Categories />
+
+      <WhyChoose />
+
+      <HowItWorks />
+
+      <Destinations />
+
+      <Testimonials />
+
+      <PlanningTips />
+    </>
+  );
 }
 
 /* export default function Home() {

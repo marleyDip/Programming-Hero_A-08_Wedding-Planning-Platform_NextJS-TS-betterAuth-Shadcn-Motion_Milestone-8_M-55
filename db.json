@@ -1,0 +1,447 @@
+{
+    "users": [
+        {
+            "id": "u-vendor-1",
+            "name": "Rafiq Ahmed",
+            "email": "rafiq@lensandlove.example",
+            "role": "vendor",
+            "businessName": "Lens & Love Studio",
+            "image": "https://i.pravatar.cc/160?img=12",
+            "subscriptionPlan": "premium",
+            "isBlocked": false
+        },
+        {
+            "id": "u-vendor-2",
+            "name": "Nusrat Jahan",
+            "email": "nusrat@royalgarden.example",
+            "role": "vendor",
+            "businessName": "Royal Garden Venues",
+            "image": "https://i.pravatar.cc/160?img=47",
+            "subscriptionPlan": "premium",
+            "isBlocked": false
+        },
+        {
+            "id": "u-vendor-3",
+            "name": "Tanvir Hasan",
+            "email": "tanvir@bloomstage.example",
+            "role": "vendor",
+            "businessName": "Bloom & Stage Decor",
+            "image": "https://i.pravatar.cc/160?img=33",
+            "subscriptionPlan": "free",
+            "isBlocked": false
+        },
+        {
+            "id": "u-vendor-4",
+            "name": "Farhana Akter",
+            "email": "farhana@spicetable.example",
+            "role": "vendor",
+            "businessName": "Spice Table Catering",
+            "image": "https://i.pravatar.cc/160?img=32",
+            "subscriptionPlan": "premium",
+            "isBlocked": false
+        },
+        {
+            "id": "u-vendor-5",
+            "name": "Sadia Islam",
+            "email": "sadia@glowbridal.example",
+            "role": "vendor",
+            "businessName": "Glow Bridal Studio",
+            "image": "https://i.pravatar.cc/160?img=45",
+            "subscriptionPlan": "free",
+            "isBlocked": false
+        },
+        {
+            "id": "u-vendor-6",
+            "name": "Imran Khan",
+            "email": "imran@shaadiwear.example",
+            "role": "vendor",
+            "businessName": "Shaadi Couture",
+            "image": "https://i.pravatar.cc/160?img=15",
+            "subscriptionPlan": "free",
+            "isBlocked": false
+        },
+        {
+            "id": "u-vendor-7",
+            "name": "Mahin Chowdhury",
+            "email": "mahin@blocked.example",
+            "role": "vendor",
+            "businessName": "Blocked Vendor Co.",
+            "image": "https://i.pravatar.cc/160?img=8",
+            "subscriptionPlan": "free",
+            "isBlocked": true
+        }
+    ],
+    "services": [
+        {
+            "id": "svc-001",
+            "name": "Cinematic Wedding Film & Photo Package",
+            "category": "Photography & Videography",
+            "price": 45000,
+            "priceType": "per event",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80",
+            "description": "Full-day photo and cinematic film coverage with a drone, a highlight reel and an edited album.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-1",
+            "rating": 4.9,
+            "reviewCount": 184,
+            "createdAt": "2026-01-12"
+        },
+        {
+            "id": "svc-002",
+            "name": "Royal Garden Banquet Hall",
+            "category": "Wedding Venues",
+            "price": 120000,
+            "priceType": "per event",
+            "location": "Chattogram",
+            "image": "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=80",
+            "description": "An elegant banquet hall with a floral entrance, bridal suite and seating for up to 600 guests.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-2",
+            "rating": 4.8,
+            "reviewCount": 126,
+            "createdAt": "2026-01-20"
+        },
+        {
+            "id": "svc-003",
+            "name": "Floral Stage & Mood Lighting Design",
+            "category": "Decoration & Florist",
+            "price": 60000,
+            "priceType": "per event",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1478146059778-26028b07395a?auto=format&fit=crop&w=900&q=80",
+            "description": "Custom stage design with fresh flowers, drapery and warm mood lighting for your main ceremony.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-3",
+            "rating": 4.7,
+            "reviewCount": 97,
+            "createdAt": "2026-02-03"
+        },
+        {
+            "id": "svc-004",
+            "name": "Signature Wedding Feast Menu",
+            "category": "Catering Services",
+            "price": 850,
+            "priceType": "per guest",
+            "location": "Sylhet",
+            "image": "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=900&q=80",
+            "description": "Traditional multi-course menu with live counters and a dessert bar, prepared by experienced chefs.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-4",
+            "rating": 4.8,
+            "reviewCount": 211,
+            "createdAt": "2026-02-10"
+        },
+        {
+            "id": "svc-005",
+            "name": "Bridal Makeup & Hair Styling",
+            "category": "Makeup & Styling",
+            "price": 18000,
+            "priceType": "per session",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=900&q=80",
+            "description": "Long-lasting bridal makeup with hair styling, a trial session and touch-up kit included.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-5",
+            "rating": 4.9,
+            "reviewCount": 158,
+            "createdAt": "2026-02-18"
+        },
+        {
+            "id": "svc-006",
+            "name": "Designer Bridal Lehenga Collection",
+            "category": "Wedding Fashion",
+            "price": 75000,
+            "priceType": "per outfit",
+            "location": "Rajshahi",
+            "image": "https://images.unsplash.com/photo-1594552072238-b8a33785b261?auto=format&fit=crop&w=900&q=80",
+            "description": "Hand-embroidered bridal outfits with custom fitting and matching accessories.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-6",
+            "rating": 4.6,
+            "reviewCount": 64,
+            "createdAt": "2026-03-01"
+        },
+        {
+            "id": "svc-007",
+            "name": "Beachside Sunset Wedding Venue",
+            "category": "Wedding Venues",
+            "price": 180000,
+            "priceType": "per event",
+            "location": "Cox's Bazar",
+            "image": "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80",
+            "description": "A private beachfront venue with sunset ceremony deck, lighting and guest lounge areas.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-2",
+            "rating": 4.9,
+            "reviewCount": 88,
+            "createdAt": "2026-03-09"
+        },
+        {
+            "id": "svc-008",
+            "name": "Pre-Wedding Shoot & Candid Album",
+            "category": "Photography & Videography",
+            "price": 28000,
+            "priceType": "per shoot",
+            "location": "Khulna",
+            "image": "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=900&q=80",
+            "description": "Outdoor pre-wedding shoot at two locations with 40 edited photos and a printed album.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-1",
+            "rating": 4.7,
+            "reviewCount": 73,
+            "createdAt": "2026-03-15"
+        },
+        {
+            "id": "svc-009",
+            "name": "Traditional Gaye Holud Decor Package",
+            "category": "Decoration & Florist",
+            "price": 35000,
+            "priceType": "per event",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=900&q=80",
+            "description": "Vibrant marigold decor, seating setup and photo corner for your Gaye Holud celebration.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-3",
+            "rating": 4.6,
+            "reviewCount": 59,
+            "createdAt": "2026-03-22"
+        },
+        {
+            "id": "svc-010",
+            "name": "Groom Sherwani & Accessories Set",
+            "category": "Wedding Fashion",
+            "price": 32000,
+            "priceType": "per outfit",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80",
+            "description": "Tailored sherwani with turban, stole and footwear options in classic and modern cuts.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-6",
+            "rating": 4.5,
+            "reviewCount": 41,
+            "createdAt": "2026-04-02"
+        },
+        {
+            "id": "svc-011",
+            "name": "Budget Catering Combo (inactive)",
+            "category": "Catering Services",
+            "price": 500,
+            "priceType": "per guest",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
+            "description": "Approved earlier but currently switched off by the vendor.",
+            "status": "approved",
+            "isActive": false,
+            "vendorId": "u-vendor-4",
+            "rating": 4.2,
+            "reviewCount": 12,
+            "createdAt": "2026-04-05"
+        },
+        {
+            "id": "svc-012",
+            "name": "New Luxury Venue (awaiting review)",
+            "category": "Wedding Venues",
+            "price": 250000,
+            "priceType": "per event",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=900&q=80",
+            "description": "Submitted today and waiting for admin approval.",
+            "status": "pending",
+            "isActive": true,
+            "vendorId": "u-vendor-2",
+            "rating": 0,
+            "reviewCount": 0,
+            "createdAt": "2026-11-16"
+        },
+        {
+            "id": "svc-013",
+            "name": "Studio Makeup Offer (pending)",
+            "category": "Makeup & Styling",
+            "price": 9000,
+            "priceType": "per session",
+            "location": "Sylhet",
+            "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80",
+            "description": "Waiting for admin approval.",
+            "status": "pending",
+            "isActive": true,
+            "vendorId": "u-vendor-5",
+            "rating": 0,
+            "reviewCount": 0,
+            "createdAt": "2026-11-17"
+        },
+        {
+            "id": "svc-014",
+            "name": "Rejected Decor Listing",
+            "category": "Decoration & Florist",
+            "price": 15000,
+            "priceType": "per event",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&w=900&q=80",
+            "description": "Rejected: missing business details.",
+            "status": "rejected",
+            "isActive": true,
+            "vendorId": "u-vendor-3",
+            "rating": 0,
+            "reviewCount": 0,
+            "createdAt": "2026-10-01"
+        },
+        {
+            "id": "svc-015",
+            "name": "Service from a blocked vendor",
+            "category": "Photography & Videography",
+            "price": 20000,
+            "priceType": "per event",
+            "location": "Dhaka",
+            "image": "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=900&q=80",
+            "description": "Approved and active, but the vendor account is blocked.",
+            "status": "approved",
+            "isActive": true,
+            "vendorId": "u-vendor-7",
+            "rating": 4.0,
+            "reviewCount": 5,
+            "createdAt": "2026-05-01"
+        }
+    ],
+    "categories": [
+        {
+            "id": "photography-videography",
+            "name": "Photography & Videography",
+            "tagline": "Capture every moment",
+            "description": "Timeless portraits and cinematic films that turn your big day into a story worth reliving.",
+            "tags": [
+                "Pre-wedding shoot",
+                "Cinematic film",
+                "Drone coverage",
+                "Albums"
+            ]
+        },
+        {
+            "id": "wedding-venues",
+            "name": "Wedding Venues",
+            "tagline": "Halls, gardens & resorts",
+            "description": "From grand banquet halls to beachfront resorts, find the perfect setting for your guest list.",
+            "tags": [
+                "Banquet halls",
+                "Garden venues",
+                "Resorts",
+                "Beachfront"
+            ]
+        },
+        {
+            "id": "decoration-florist",
+            "name": "Decoration & Florist",
+            "tagline": "Stages, flowers & lighting",
+            "description": "Dreamy stages, floral arches and glowing ambience designed around your vision.",
+            "tags": [
+                "Stage design",
+                "Floral arches",
+                "Mood lighting",
+                "Gaye Holud"
+            ]
+        },
+        {
+            "id": "catering-services",
+            "name": "Catering Services",
+            "tagline": "Menus guests will remember",
+            "description": "Traditional feasts, live counters and dessert bars for every taste and headcount.",
+            "tags": [
+                "Traditional menus",
+                "Live counters",
+                "Desserts",
+                "Buffet"
+            ]
+        },
+        {
+            "id": "makeup-styling",
+            "name": "Makeup & Styling",
+            "tagline": "Bridal & groom looks",
+            "description": "Radiant bridal makeup, hair styling and polished grooming for the whole wedding party.",
+            "tags": [
+                "Bridal makeup",
+                "Hair styling",
+                "Groom grooming",
+                "Henna"
+            ]
+        },
+        {
+            "id": "wedding-fashion",
+            "name": "Wedding Fashion",
+            "tagline": "Outfits & accessories",
+            "description": "Sarees, lehengas, sherwanis and finishing touches from trusted designers and boutiques.",
+            "tags": [
+                "Bridal wear",
+                "Sherwani",
+                "Jewellery",
+                "Accessories"
+            ]
+        }
+    ],
+    "testimonials": [
+        {
+            "id": "t-1",
+            "name": "Ayesha & Rahim",
+            "location": "Dhaka",
+            "service": "Wedding Photography",
+            "rating": 5,
+            "quote": "Everything was in one place, so comparing vendors was easy. Sending a booking request only took a few minutes.",
+            "image": "https://i.pravatar.cc/160?img=44",
+            "status": "approved",
+            "sample": true
+        },
+        {
+            "id": "t-2",
+            "name": "Tasnia & Farhan",
+            "location": "Chattogram",
+            "service": "Wedding Venues",
+            "rating": 5,
+            "quote": "We could filter by city, check prices upfront and see exactly who the vendor was before booking.",
+            "image": "https://i.pravatar.cc/160?img=5",
+            "status": "approved",
+            "sample": true
+        },
+        {
+            "id": "t-3",
+            "name": "Mitu & Sabbir",
+            "location": "Sylhet",
+            "service": "Decoration & Florist",
+            "rating": 4,
+            "quote": "The dashboard made it simple to follow our requests from pending to confirmed without chasing anyone.",
+            "image": "https://i.pravatar.cc/160?img=26",
+            "status": "approved",
+            "sample": true
+        },
+        {
+            "id": "t-4",
+            "name": "Nabila & Arif",
+            "location": "Dhaka",
+            "service": "Makeup & Styling",
+            "rating": 5,
+            "quote": "Finding bridal makeup and styling in the same app as our venue and decor saved us so much time.",
+            "image": "https://i.pravatar.cc/160?img=23",
+            "status": "approved",
+            "sample": true
+        },
+        {
+            "id": "t-5",
+            "name": "Shirin & Kamal",
+            "location": "Rajshahi",
+            "service": "Catering Services",
+            "rating": 5,
+            "quote": "Clear descriptions and honest pricing helped us choose a caterer with confidence.",
+            "image": "https://i.pravatar.cc/160?img=52",
+            "status": "approved",
+            "sample": true
+        }
+    ]
+}

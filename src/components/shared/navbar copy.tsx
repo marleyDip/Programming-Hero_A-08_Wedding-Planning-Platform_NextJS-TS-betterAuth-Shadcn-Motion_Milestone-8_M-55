@@ -185,7 +185,7 @@ function Logo() {
       <motion.span
         whileHover={{ scale: 1.15, rotate: [0, -10, 10, 0] }}
         transition={{ duration: 0.5 }}
-        className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-rose-400 to-rose-600 text-white shadow-md shadow-rose-300/40"
+        className="grid h-9 w-9 place-items-center rounded-full bg-linear-to-br from-rose-400 to-rose-600 text-white shadow-md shadow-rose-300/40"
       >
         <Heart className="h-4 w-4 fill-white" />
       </motion.span>
@@ -418,7 +418,7 @@ export default function MegaNavbar() {
                     >
                       <Link
                         href="/signup"
-                        className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-rose-500 to-rose-600 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-rose-300/50"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-rose-500 to-rose-600 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-rose-300/50"
                       >
                         Sign Up
                         <ArrowRight className="h-4 w-4" />
@@ -552,7 +552,7 @@ export default function MegaNavbar() {
           {/* Scroll progress bar */}
           <motion.div
             style={{ scaleX: progress }}
-            className="absolute bottom-0 left-0 h-[2px] w-full origin-left bg-gradient-to-r from-rose-300 via-rose-500 to-amber-400"
+            className="absolute bottom-0 left-0 h-[2px] w-full origin-left bg-linear-to-r from-rose-300 via-rose-500 to-amber-400"
           />
         </motion.div>
 
@@ -663,7 +663,7 @@ export default function MegaNavbar() {
                   <motion.div
                     variants={itemVariants}
                     whileHover={{ y: -4 }}
-                    className="relative col-span-3 overflow-hidden rounded-2xl bg-gradient-to-br from-rose-500 via-rose-600 to-pink-700 p-5 text-white"
+                    className="relative col-span-3 overflow-hidden rounded-2xl bg-linear-to-br from-rose-500 via-rose-600 to-pink-700 p-5 text-white"
                   >
                     <motion.div
                       aria-hidden
@@ -862,7 +862,7 @@ export default function MegaNavbar() {
                     <motion.li variants={drawerItem} className="pt-2">
                       <Link
                         href="/signup"
-                        className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-rose-500 to-rose-600 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-rose-300/50"
+                        className="flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-rose-500 to-rose-600 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-rose-300/50"
                       >
                         Sign Up <ArrowRight className="h-4 w-4" />
                       </Link>
