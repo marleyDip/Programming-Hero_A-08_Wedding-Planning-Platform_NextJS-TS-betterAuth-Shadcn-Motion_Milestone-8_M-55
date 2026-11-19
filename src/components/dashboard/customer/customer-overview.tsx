@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Avatar,
   STATUS_META,
@@ -54,10 +54,22 @@ function Hero({
   nextEvent: number | null;
 }) {
   const { ref, reduce, style, glare, sx, sy, handlers } = useTilt(4, 26);
+
   const first = name.split(" ")[0];
-  const hour = new Date().getHours();
-  const greet =
-    hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+
+  // const hour = new Date().getHours();
+  // const greet =
+  //   hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+
+  const [greet] = useState(() => {
+    const hour = new Date().getHours();
+
+    return hour < 12
+      ? "Good morning"
+      : hour < 18
+        ? "Good afternoon"
+        : "Good evening";
+  });
 
   const subtitle =
     pending === null
@@ -394,7 +406,6 @@ function NextEvent({ booking }: { booking: Booking | null }) {
         >
           <CalendarHeart className="h-8 w-8" />
         </motion.span>
-
         <p className="mt-4 font-serif text-lg font-semibold">
           No upcoming events yet
         </p>

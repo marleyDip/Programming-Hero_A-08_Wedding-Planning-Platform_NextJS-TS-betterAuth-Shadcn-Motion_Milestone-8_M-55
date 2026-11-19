@@ -247,7 +247,7 @@ function SignUpForm() {
     shake.start({ x: [0, -10, 10, -6, 6, 0], transition: { duration: 0.4 } });
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (uploading)
       return void toast.info("Please wait for your photo to finish uploading");
@@ -293,14 +293,33 @@ function SignUpForm() {
   };
 
   const onGoogle = async () => {
+    if (role === "vendor" && !businessName?.trim()) {
+      toast.error(
+        "Please enter your business name before continuing with Google.",
+      );
+      return;
+    }
+
     setGoogleLoading(true);
+
     try {
+      toast.loading(`Redirecting to Google to create your ${role} account…`, {
+        id: "google-signup",
+      });
+
       await authClient.signIn.social({
         provider: "google",
         callbackURL: redirectTo ?? "/dashboard",
+        additionalData: {
+          role, // "customer" | "vendor" from your role selector
+          businessName: role === "vendor" ? businessName : undefined,
+        },
       });
     } catch {
-      toast.error("Google sign-up failed. Please try again.");
+      toast.error("Google sign-up failed. Please try again.", {
+        id: "google-signup",
+      });
+
       setGoogleLoading(false);
     }
   };
@@ -311,6 +330,77 @@ function SignUpForm() {
         title="Create your account"
         subtitle="Join WedPlan and make every wedding detail effortless."
       />
+
+      {/* <p
+        role="status"
+        className="mb-3 rounded-xl border border-brand/30 bg-brand-soft px-4 py-3 text-xs leading-relaxed text-foreground"
+      >
+        {role === "vendor"
+          ? "Google sign-up will create a Vendor account. Enter your business name in this form first."
+          : "Google sign-up will create a Customer account. To join as a Vendor, switch your role to Vendor first."}
+      </p> */}
+
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={role}
+          role="status"
+          initial={{ opacity: 0, y: -12, rotateX: -40, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 8, rotateX: 30, scale: 0.97 }}
+          transition={{ type: "spring", stiffness: 260, damping: 22 }}
+          style={{ transformPerspective: 700, transformOrigin: "top center" }}
+          className="relative mb-3 flex items-start gap-3 overflow-hidden rounded-2xl border border-brand/30 bg-brand-soft px-4 py-3.5 text-xs leading-relaxed text-foreground"
+        >
+          {/* icon with a soft pulsing ring */}
+          <span className="relative shrink-0">
+            <motion.span
+              aria-hidden
+              className="absolute inset-0 rounded-xl bg-brand"
+              animate={{ scale: [1, 1.7], opacity: [0.45, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+            />
+
+            <motion.span
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 15,
+                delay: 0.1,
+              }}
+              className="relative grid h-9 w-9 place-items-center rounded-xl bg-brand text-brand-foreground shadow-md"
+            >
+              {role === "vendor" ? (
+                <Store className="h-4 w-4" />
+              ) : (
+                <User className="h-4 w-4" />
+              )}
+            </motion.span>
+          </span>
+
+          {/* text fades up after the card lands */}
+          <motion.span
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="relative pt-0.5"
+          >
+            {role === "vendor"
+              ? "Google sign-up will create a Vendor account. Enter your business name in this form first."
+              : "Google sign-up will create a Customer account. To join as a Vendor, switch your role to Vendor first."}
+          </motion.span>
+
+          {/* accent line that draws itself along the bottom */}
+          <motion.span
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-linear-to-r from-(--logo-from) to-(--logo-to)"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+          />
+        </motion.div>
+      </AnimatePresence>
 
       <GoogleButton
         loading={googleLoading}
@@ -426,3 +516,50 @@ export default function SignUpPage() {
     </AuthShell>
   );
 }
+
+/* <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={role}
+          role="status"
+          initial={{ opacity: 0, y: -12, rotateX: -40, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 8, rotateX: 30, scale: 0.97 }}
+          transition={{ type: "spring", stiffness: 260, damping: 22 }}
+          style={{ transformPerspective: 700, transformOrigin: "top center" }}
+          className="relative mb-3 flex items-start gap-3 overflow-hidden rounded-2xl border border-brand/30 bg-brand-soft px-4 py-3.5 text-xs leading-relaxed text-foreground"
+        >
+          // shimmer sweep each time the role changes
+          <motion.span
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 w-1/3 -skew-x-12 bg-white/40"
+            initial={{ left: "-40%" }}
+            animate={{ left: "140%" }}
+            transition={{ duration: 0.9, ease: "easeInOut" }}
+          />
+
+          <motion.span
+            initial={{ scale: 0, rotate: -90 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 400,
+              damping: 15,
+              delay: 0.1,
+            }}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand text-brand-foreground shadow-md"
+          >
+            {role === "vendor" ? (
+              <Store className="h-4 w-4" />
+            ) : (
+              <User className="h-4 w-4" />
+            )}
+          </motion.span>
+
+          <span className="relative pt-0.5">
+            {role === "vendor"
+              ? "Google sign-up will create a Vendor account. Enter your business name in this form first."
+              : "Google sign-up will create a Customer account. To join as a Vendor, switch your role to Vendor first."}
+          </span>
+        </motion.div>
+      </AnimatePresence>
+*/

@@ -326,6 +326,7 @@ export function ImageUpload({
               <stop offset="1" style={{ stopColor: "var(--logo-to)" }} />
             </linearGradient>
           </defs>
+
           <circle
             cx="60"
             cy="60"

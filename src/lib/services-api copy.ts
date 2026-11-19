@@ -272,3 +272,152 @@ export async function getTestimonials(
 export function getAllServices(signal?: AbortSignal): Promise<Service[]> {
   return getFeaturedServices(Number.MAX_SAFE_INTEGER, signal);
 }
+
+/* ------------------------------------------------------------------ */
+/*  Service details + bookings                                         */
+/* ------------------------------------------------------------------ */
+
+export type ServiceErrorCode = "not-found" | "unavailable" | "network";
+
+export class ServiceError extends Error {
+  code: ServiceErrorCode;
+  constructor(code: ServiceErrorCode, message: string) {
+    super(message);
+    this.name = "ServiceError";
+    this.code = code;
+  }
+}
+
+export interface ServiceDetail extends Service {
+  images: string[];
+  createdAt?: string;
+}
+
+/**
+ * One bookable service. Throws ServiceError:
+ *  - "not-found"   the id does not exist (invalid service ID)
+ *  - "unavailable" it exists but is not approved + active, or its vendor is missing / blocked
+ *  - "network"     the API could not be reached
+ */
+export async function getServiceById(
+  id: string,
+  signal?: AbortSignal,
+): Promise<ServiceDetail> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}/services/${encodeURIComponent(id)}`, {
+      signal,
+      headers: { Accept: "application/json" },
+    });
+  } catch (e) {
+    if ((e as Error).name === "AbortError") throw e;
+    throw new ServiceError("network", "We couldn't reach the server.");
+  }
+  if (res.status === 404 || res.status === 400)
+    throw new ServiceError("not-found", "This service doesn't exist.");
+  if (!res.ok)
+    throw new ServiceError(
+      "network",
+      `The server returned an error (${res.status}).`,
+    );
+
+  const s = (await res.json()) as RawService & {
+    images?: string[];
+    createdAt?: string;
+  };
+  if (s.status !== "approved" || s.isActive !== true) {
+    throw new ServiceError(
+      "unavailable",
+      "This service is not available for booking right now.",
+    );
+  }
+
+  let u: RawUser;
+  try {
+    u = await getJSON<RawUser>(
+      `/users/${encodeURIComponent(String(s.vendorId))}`,
+      signal,
+    );
+  } catch (e) {
+    if ((e as Error).name === "AbortError") throw e;
+    throw new ServiceError(
+      "unavailable",
+      "This service is not available for booking right now.",
+    );
+  }
+  if (u.isBlocked || u.role !== "vendor") {
+    throw new ServiceError(
+      "unavailable",
+      "This service is not available for booking right now.",
+    );
+  }
+
+  const vid = String(u.id ?? u._id);
+  return {
+    id: String(s.id ?? s._id),
+    name: s.name,
+    category: s.category,
+    price: s.price,
+    priceType: s.priceType ?? "per event",
+    location: s.location,
+    image: s.image,
+    images: s.images && s.images.length ? s.images : [s.image],
+    description: s.description,
+    rating: s.rating ?? 0,
+    reviewCount: s.reviewCount ?? 0,
+    createdAt: s.createdAt,
+    vendor: {
+      id: vid,
+      name: u.name,
+      businessName: u.businessName || u.name,
+      image: u.image,
+      subscriptionPlan: u.subscriptionPlan,
+    },
+  };
+}
+
+export interface BookingInput {
+  serviceId: string;
+  vendorId: string;
+  customerId: string;
+  eventDate: string; // YYYY-MM-DD
+  eventLocation: string;
+  message: string;
+}
+
+/** Is there already a pending / accepted request by this customer for this service and date? */
+export async function hasActiveBooking(
+  serviceId: string,
+  customerId: string,
+  eventDate: string,
+  signal?: AbortSignal,
+) {
+  const qs = new URLSearchParams({
+    serviceId,
+    customerId,
+    eventDate,
+  }).toString();
+  const rows = await getJSON<{ status: string }[]>(`/bookings?${qs}`, signal);
+  return rows.some((b) => b.status === "pending" || b.status === "accepted");
+}
+
+/**
+ * Creates a booking with status "pending".
+ * NOTE: in the real Express API, customerId and vendorId must be taken from the verified JWT and
+ * the service record on the server, never trusted from the request body. They are sent here only
+ * because json-server has no auth.
+ */
+export async function createBooking(input: BookingInput, signal?: AbortSignal) {
+  const res = await fetch(`${API_URL}/bookings`, {
+    method: "POST",
+    signal,
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      ...input,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+    }),
+  });
+  if (!res.ok) throw new Error(`Booking failed (${res.status})`);
+  return res.json();
+}

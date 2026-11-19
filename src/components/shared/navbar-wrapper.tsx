@@ -1,30 +1,30 @@
+// "use client";
+
+// import WedPlanNavbar from "@/components/shared/navbar";
+// import { authClient } from "@/lib/auth-client";
+
+// type NavbarUser = {
+//   name: string;
+//   image?: string | null;
+//   role?: string;
+//   subscriptionPlan?: string;
+// } | null;
+
+// interface NavbarWrapperProps {
+//   user: NavbarUser;
+// }
+
+// export default function NavbarWrapper({ user }: NavbarWrapperProps) {
+//   const handleLogout = async () => {
+//     await authClient.signOut();
+//   };
+
+//   return (
+//     <WedPlanNavbar isPending={false} user={user} onLogout={handleLogout} />
+//   );
+// }
+
 "use client";
-
-import WedPlanNavbar from "@/components/shared/navbar";
-import { authClient } from "@/lib/auth-client";
-
-type NavbarUser = {
-  name: string;
-  image?: string | null;
-  role?: string;
-  subscriptionPlan?: string;
-} | null;
-
-interface NavbarWrapperProps {
-  user: NavbarUser;
-}
-
-export default function NavbarWrapper({ user }: NavbarWrapperProps) {
-  const handleLogout = async () => {
-    await authClient.signOut();
-  };
-
-  return (
-    <WedPlanNavbar isPending={false} user={user} onLogout={handleLogout} />
-  );
-}
-
-/* "use client";
 
 import WedPlanNavbar from "@/components/shared/navbar";
 import { authClient } from "@/lib/auth-client";
@@ -58,4 +58,3 @@ export default function NavbarWrapper() {
     <WedPlanNavbar isPending={isPending} user={user} onLogout={handleLogout} />
   );
 }
- */

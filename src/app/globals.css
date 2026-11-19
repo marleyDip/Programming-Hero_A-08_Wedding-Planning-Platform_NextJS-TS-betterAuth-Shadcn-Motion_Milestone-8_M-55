@@ -5,9 +5,7 @@
 /* Dark mode = `.dark` class on <html> (set by next-themes) */
 @custom-variant dark (&:is(.dark *));
 
-/* ------------------------------------------------------------------ */
-/*  LIGHT THEME  - ivory, blush rose & champagne gold                   */
-/* ------------------------------------------------------------------ */
+/* LIGHT THEME  - ivory, blush rose & champagne gold */
 :root {
   --radius: 0.85rem;
 
@@ -47,9 +45,7 @@
   --logo-accent: oklch(0.36 0.11 10);
 }
 
-/* ------------------------------------------------------------------ */
-/*  DARK THEME  - deep wine / plum with glowing rose-gold               */
-/* ------------------------------------------------------------------ */
+/* DARK THEME  - deep wine / plum with glowing rose-gold */
 .dark {
   --background: oklch(0.16 0.02 345);
   --foreground: oklch(0.96 0.01 60);
@@ -87,9 +83,7 @@
   --logo-accent: oklch(0.45 0.14 10);
 }
 
-/* ------------------------------------------------------------------ */
-/*  Tailwind token mapping                                              */
-/* ------------------------------------------------------------------ */
+/* Tailwind token mapping */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -127,16 +121,16 @@
     var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
-/* ------------------------------------------------------------------ */
-/*  Base                                                                */
-/* ------------------------------------------------------------------ */
+/* Base */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  html {
+
+  /* html {
     scroll-behavior: smooth;
-  }
+  } */
+
   body {
     @apply bg-background text-foreground antialiased;
     transition:

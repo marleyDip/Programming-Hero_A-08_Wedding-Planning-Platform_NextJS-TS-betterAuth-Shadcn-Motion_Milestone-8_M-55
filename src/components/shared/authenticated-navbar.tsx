@@ -1,11 +1,10 @@
-import NavbarWrapper from "@/components/shared/navbar-wrapper";
 import { getSession } from "@/lib/get-session";
 
 export default async function AuthenticatedNavbar() {
   const session = await getSession();
 
   const authUser = session?.user as
-    | (typeof session.user & {
+    | (NonNullable<typeof session>["user"] & {
         role?: string;
         subscriptionPlan?: string;
       })
@@ -20,5 +19,7 @@ export default async function AuthenticatedNavbar() {
       }
     : null;
 
-  return <NavbarWrapper user={user} />;
+  return <></>;
+
+  // return <NavbarWrapper user={user} />;
 }

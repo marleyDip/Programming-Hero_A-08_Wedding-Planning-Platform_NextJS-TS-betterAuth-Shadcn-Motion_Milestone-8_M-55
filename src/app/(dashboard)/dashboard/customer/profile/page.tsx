@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Profile Settings | WedPlan" };
 
+export const instant = false;
+
 export default function Page() {
   return <ProfileSettings />;
 }

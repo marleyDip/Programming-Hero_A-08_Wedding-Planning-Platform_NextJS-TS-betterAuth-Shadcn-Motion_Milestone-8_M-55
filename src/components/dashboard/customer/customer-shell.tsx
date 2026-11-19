@@ -188,15 +188,28 @@ function SidebarBody({
     <div
       className={`flex h-full flex-col gap-5 py-5 ${collapsed ? "px-3" : "px-4"}`}
     >
+      {/* Brand */}
+      {collapsed ? (
+        <Link
+          href="/"
+          onClick={onNavigate}
+          aria-label="WedPlan home"
+          className="flex items-center justify-center outline-none"
+        >
+          <LogoMark />
+        </Link>
+      ) : (
+        <div className="flex items-center px-1">
+          <Logo />
+        </div>
+      )}
+
       {/* brand */}
-      <Link
-        href="/"
-        onClick={onNavigate}
-        aria-label="WedPlan home"
-        className={`flex items-center outline-none ${collapsed ? "justify-center" : "px-1"}`}
+      {/* <div
+        className={`flex items-center ${collapsed ? "justify-center" : "px-1"}`}
       >
         {collapsed ? <LogoMark /> : <Logo />}
-      </Link>
+      </div> */}
 
       {/* user card */}
       <motion.div
@@ -629,12 +642,20 @@ export default function CustomerShell({
   );
 }
 
-/* {collapsed ? (
-          <span className="grid h-11 w-11 place-items-center rounded-2xl bg-linear-to-br from-(--logo-from) to-(--logo-to) text-(--logo-fg) shadow-lg shadow-brand/30">
-            <span className="font-serif text-xl font-bold">W</span>
-          </span>
-        ) : (
-          <BrandMark />
-        )}
+/* 
+  <Link
+    href="/"
+    onClick={onNavigate}
+    aria-label="WedPlan home"
+    className={`flex items-center outline-none ${collapsed ? "justify-center" : "px-1"}`}
+  >
+    {collapsed ? (
+      <span className="grid h-11 w-11 place-items-center rounded-2xl bg-linear-to-br from-(--logo-from) to-(--logo-to) text-(--logo-fg) shadow-lg shadow-brand/30">
+        <span className="font-serif text-xl font-bold">W</span>
+      </span>
+    ) : (
+      <BrandMark />
+    )}
+  </Link>
 
 */

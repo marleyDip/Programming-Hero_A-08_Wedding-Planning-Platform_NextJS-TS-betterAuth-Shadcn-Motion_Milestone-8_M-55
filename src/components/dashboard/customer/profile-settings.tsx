@@ -72,7 +72,9 @@ function Field({
       >
         <Icon className="h-4 w-4 text-brand" /> {label}
       </label>
+
       {children}
+
       <AnimatePresence mode="wait" initial={false}>
         {error ? (
           <motion.p
@@ -144,6 +146,7 @@ export default function ProfileSettings() {
 
   const validate = (): Errors => {
     const e: Errors = {};
+
     if (name.trim().length < 2)
       e.name = "Please enter your full name (at least 2 characters).";
     if (name.trim().length > 80)
@@ -152,6 +155,7 @@ export default function ProfileSettings() {
       e.phone = "Enter a valid phone number, e.g. +880 1712 345678.";
     if (address.trim().length > 160)
       e.address = "Address is too long (160 characters max).";
+
     return e;
   };
 
@@ -166,16 +170,20 @@ export default function ProfileSettings() {
 
   const save = async (ev: React.SubmitEvent<HTMLFormElement>) => {
     ev.preventDefault();
+
     const v = validate();
     setErrors(v);
+
     if (Object.keys(v).length) {
       toast.error("Please fix the highlighted fields.");
       return;
     }
+
     if (uploading) {
       toast.info("Please wait for the photo upload to finish.");
       return;
     }
+
     setBusy(true);
     try {
       // role / isBlocked / subscription fields are deliberately never sent
@@ -185,6 +193,7 @@ export default function ProfileSettings() {
         address: address.trim(),
         ...(pendingImage !== undefined ? { image: pendingImage } : {}),
       } as never);
+
       if (res?.error) throw new Error(res.error.message || "Update failed");
 
       await refetch?.();
@@ -192,6 +201,7 @@ export default function ProfileSettings() {
       setUploaderKey((k) => k + 1);
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
+
       toast.success("Profile updated", {
         description: "Your changes have been saved.",
       });
@@ -228,6 +238,7 @@ export default function ProfileSettings() {
               aria-hidden
               className="absolute inset-x-0 top-0 h-28 bg-linear-to-br from-(--logo-from) via-brand to-[oklch(0.45_0.17_330)]"
             />
+
             <motion.div
               aria-hidden
               style={{ background: glare }}
@@ -245,7 +256,9 @@ export default function ProfileSettings() {
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                 className="absolute -inset-1.5 rounded-full [background:conic-gradient(from_0deg,var(--logo-from),var(--logo-to),var(--logo-from))]"
               />
+
               <span className="absolute inset-0 rounded-full bg-card" />
+
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={shownImage ?? "none"}
@@ -281,6 +294,7 @@ export default function ProfileSettings() {
             <dl className="relative mt-6 space-y-2 text-left text-sm">
               <div className="flex items-center gap-3 rounded-2xl bg-muted/50 px-4 py-3">
                 <CalendarDays className="h-4 w-4 text-brand" />
+
                 <div>
                   <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     Member since
@@ -290,6 +304,7 @@ export default function ProfileSettings() {
                   </dd>
                 </div>
               </div>
+
               <div className="flex items-start gap-3 rounded-2xl border border-dashed border-border px-4 py-3">
                 <Lock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                 <p className="text-xs leading-relaxed text-muted-foreground">
@@ -324,6 +339,7 @@ export default function ProfileSettings() {
               Upload a new photo to replace your current one. It is saved when
               you press Save changes.
             </p>
+
             <div className="mt-5 grid items-center gap-5 sm:grid-cols-[auto_1fr]">
               <div className="mx-auto w-full max-w-[16rem]">
                 <ImageUpload
@@ -332,8 +348,10 @@ export default function ProfileSettings() {
                   onBusyChange={setUploading}
                 />
               </div>
+
               <div className="space-y-3 text-sm text-muted-foreground">
                 <p>PNG, JPG, WEBP or GIF, up to 5 MB.</p>
+
                 {user.image && pendingImage !== null && (
                   <button
                     type="button"
@@ -343,6 +361,7 @@ export default function ProfileSettings() {
                     <Trash2 className="h-3.5 w-3.5" /> Remove current photo
                   </button>
                 )}
+
                 {pendingImage === null && (
                   <p className="text-xs font-medium text-destructive">
                     Your photo will be removed when you save.
@@ -395,6 +414,7 @@ export default function ProfileSettings() {
                   aria-describedby="pf-email-msg"
                   className={`${input()} cursor-not-allowed bg-muted/60 pr-11 text-muted-foreground`}
                 />
+
                 <Lock className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               </div>
             </Field>
@@ -421,6 +441,7 @@ export default function ProfileSettings() {
                   className={input(errors.phone)}
                 />
               </Field>
+
               <Field
                 id="pf-address"
                 label="City / address (optional)"
@@ -486,6 +507,7 @@ export default function ProfileSettings() {
                 )}
               </AnimatePresence>
             </p>
+
             <div className="flex items-center gap-2.5">
               <button
                 type="button"
@@ -495,6 +517,7 @@ export default function ProfileSettings() {
               >
                 <RotateCcw className="h-4 w-4" /> Reset
               </button>
+
               <motion.button
                 type="submit"
                 disabled={!dirty || busy || uploading}

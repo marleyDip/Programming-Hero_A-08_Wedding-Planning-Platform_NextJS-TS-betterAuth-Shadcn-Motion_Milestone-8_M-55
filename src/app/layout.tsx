@@ -3,10 +3,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 
 import AuthenticatedFooter from "@/components/shared/authenticated-footer";
-import AuthenticatedNavbar from "@/components/shared/authenticated-navbar";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import AppToaster from "@/components/ui/toaster";
 
+import NavbarWrapper from "@/components/shared/navbar-wrapper";
+import SplashScreen from "@/components/splash-screen";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,14 +37,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
+        {/* Once per session: it shows once per browser session. Use <SplashScreen once={false} /> to show it on every load while you test. */}
+        <SplashScreen />
+
         <ThemeProvider>
           {/* Navbar */}
           <Suspense fallback={null}>
-            <AuthenticatedNavbar />
+            <NavbarWrapper />
           </Suspense>
 
           {/* Page Content */}

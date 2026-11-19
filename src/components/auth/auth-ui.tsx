@@ -5,6 +5,7 @@
  * Place at: components/auth/auth-ui.tsx
  */
 
+import { LogoMark } from "@/components/shared/logo";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
@@ -257,13 +258,27 @@ export function FormHeading({
 }) {
   return (
     <div className="mb-8">
-      <motion.div
+      {/* <motion.div
         initial={{ scale: 0, rotate: -30 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ type: "spring", stiffness: 260, damping: 14, delay: 0.1 }}
         className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-linear-to-br from-(--logo-from) to-(--logo-to) text-(--logo-fg) shadow-lg shadow-brand/30"
       >
         <Heart className="h-6 w-6 fill-current" />
+      </motion.div> */}
+
+      <motion.div
+        initial={{ scale: 0, rotate: -30 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 14,
+          delay: 0.1,
+        }}
+        className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-linear-to-br from-(--logo-from) to-(--logo-to) shadow-lg shadow-brand/30"
+      >
+        <LogoMark size={48} />
       </motion.div>
 
       <h1 className="font-serif text-3xl font-semibold tracking-tight">

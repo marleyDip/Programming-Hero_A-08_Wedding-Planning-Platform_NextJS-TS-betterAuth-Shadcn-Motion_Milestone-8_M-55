@@ -40,7 +40,7 @@ function SignInForm() {
     shake.start({ x: [0, -10, 10, -6, 6, 0], transition: { duration: 0.4 } });
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const next: typeof errors = {};

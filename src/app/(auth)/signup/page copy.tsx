@@ -377,7 +377,7 @@ function SignUpForm() {
     return data.url as string;
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const next: Errors = {};

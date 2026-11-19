@@ -5,6 +5,8 @@ import { Suspense } from "react";
 
 export const metadata: Metadata = { title: "My Bookings | WedPlan" };
 
+export const instant = false;
+
 export default function Page() {
   return (
     <Suspense fallback={<div className="min-h-[50vh]" aria-busy="true" />}>
