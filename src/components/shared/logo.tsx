@@ -38,6 +38,7 @@ export function LogoMark({ size = 38 }: { size?: number }) {
           <stop offset="0" style={{ stopColor: "var(--logo-from)" }} />
           <stop offset="1" style={{ stopColor: "var(--logo-to)" }} />
         </linearGradient>
+
         <linearGradient
           id={`s-${id}`}
           x1="0"
@@ -66,6 +67,7 @@ export function LogoMark({ size = 38 }: { size?: number }) {
         animate={{ pathLength: 1, opacity: 1 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
       />
+
       {/* Right ring (interlocked) */}
       <motion.circle
         cx="24.5"
@@ -77,6 +79,7 @@ export function LogoMark({ size = 38 }: { size?: number }) {
         animate={{ pathLength: 1, opacity: 1 }}
         transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
       />
+
       {/* Diamond sparkle */}
       <motion.path
         d="M20 6.5 L22.2 10 L20 13.5 L17.8 10 Z"
@@ -84,7 +87,7 @@ export function LogoMark({ size = 38 }: { size?: number }) {
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: [0, 1.25, 1], opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.7 }}
-        transformOrigin="20px 10px"
+        // transformOrigin="20px 10px"
       />
     </motion.svg>
   );
@@ -98,6 +101,7 @@ export function Logo({ showText = true }: { showText?: boolean }) {
       className="group flex items-center gap-2.5"
     >
       <LogoMark />
+
       {showText && (
         <span className="font-serif text-[1.45rem] font-semibold leading-none tracking-tight text-foreground">
           Wed
