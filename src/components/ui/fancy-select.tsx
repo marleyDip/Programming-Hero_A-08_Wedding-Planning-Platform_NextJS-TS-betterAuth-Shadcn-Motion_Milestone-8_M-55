@@ -7,6 +7,7 @@
  * - "Keycap" trigger with a solid 3D bottom edge that presses down on click
  * - Panel flips open from the top with perspective; options stagger in
  * - Fully keyboard accessible (ArrowUp/Down, Home/End, Enter/Space, Esc, Tab) with proper
+ *
  *   combobox / listbox roles, closes on outside click, scrolls the highlighted option into view
  */
 

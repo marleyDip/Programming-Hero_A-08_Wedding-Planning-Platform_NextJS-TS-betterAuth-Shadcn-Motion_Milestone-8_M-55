@@ -872,8 +872,10 @@ export default function ServicesExplorer() {
               >
                 Search by name
               </label>
+
               <div className="group relative">
                 <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-brand" />
+
                 <input
                   id="svc-search"
                   type="search"
