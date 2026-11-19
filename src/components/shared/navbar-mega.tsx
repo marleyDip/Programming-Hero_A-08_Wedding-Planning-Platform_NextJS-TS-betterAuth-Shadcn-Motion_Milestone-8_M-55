@@ -1,6 +1,5 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
 /**
  * WedPlan - Animated Mega Navbar
  * Stack: Next.js (App Router) + TypeScript + Tailwind/ShadCN + Framer Motion + lucide-react
@@ -30,6 +29,7 @@ import { authClient } from "@/lib/auth-client";
  * If you use the newer package, change the import to: "motion/react".
  */
 
+import { authClient } from "@/lib/auth-client";
 import {
   AnimatePresence,
   motion,
@@ -59,8 +59,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-/* ----------------------------- Types & data ----------------------------- */
-
+// Types & data
 type Role = "admin" | "vendor" | "customer";
 
 export interface NavUser {
@@ -69,10 +68,10 @@ export interface NavUser {
   role?: Role | string;
 }
 
-interface MegaNavbarProps {
-  user: NavUser | null;
-  onLogout?: () => void | Promise<void>;
-}
+// interface MegaNavbarProps {
+//   user: NavUser | null;
+//   onLogout?: () => void | Promise<void>;
+// }
 
 const CATEGORIES = [
   {
@@ -113,8 +112,7 @@ const dashboardHref = (role?: string) =>
       ? "/dashboard/vendor"
       : "/dashboard/customer";
 
-/* ------------------------------ Animations ------------------------------ */
-
+// Animations
 const panelVariants: Variants = {
   hidden: { opacity: 0, y: -12, scale: 0.98, filter: "blur(6px)" },
   show: {
@@ -173,8 +171,7 @@ const drawerItem: Variants = {
   },
 };
 
-/* -------------------------------- Logo --------------------------------- */
-
+// Logo
 function Logo() {
   return (
     <Link
@@ -196,8 +193,7 @@ function Logo() {
   );
 }
 
-/* ------------------------------ Avatar --------------------------------- */
-
+// Avatar
 function Avatar({ user, size = 36 }: { user: NavUser; size?: number }) {
   const initials = user.name
     .split(" ")
@@ -224,13 +220,25 @@ function Avatar({ user, size = 36 }: { user: NavUser; size?: number }) {
   );
 }
 
-/* ---------------------------- Main component ---------------------------- */
+// Main component
+function SlidingPill({ visible }: { visible: boolean }) {
+  return visible ? (
+    <motion.span
+      layoutId="nav-pill"
+      className="absolute inset-0 -z-10 rounded-full bg-rose-50"
+      transition={{ type: "spring", stiffness: 500, damping: 36 }}
+    />
+  ) : null;
+}
 
 /* export default function MegaNavbar({ user, onLogout }: MegaNavbarProps) { */
 
 export default function MegaNavbar() {
   const pathname = usePathname();
+  return <MegaNavbarContent key={pathname} pathname={pathname} />;
+}
 
+function MegaNavbarContent({ pathname }: { pathname: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -256,7 +264,8 @@ export default function MegaNavbar() {
     ? {
         name: session.user.name,
         image: session.user.image,
-        // role: (session.user as any).role,
+        role: (session.user as typeof session.user & { role?: NavUser["role"] })
+          .role,
       }
     : null;
 
@@ -270,12 +279,12 @@ export default function MegaNavbar() {
     closeTimer.current = setTimeout(() => setMegaOpen(false), 140);
   }, []);
 
-  /* Close everything on route change */
+  /* Reset pending hover-close work when this route-specific navbar unmounts. */
   useEffect(() => {
-    setMegaOpen(false);
-    setProfileOpen(false);
-    setMobileOpen(false);
-  }, [pathname]);
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
 
   /* Escape + click outside */
   useEffect(() => {
@@ -318,20 +327,12 @@ export default function MegaNavbar() {
       active ? "text-rose-600" : "text-neutral-700 hover:text-neutral-900"
     }`;
 
-  /* Sliding pill used by top-level links */
-  const Pill = ({ id }: { id: string }) =>
-    hoverLink === id ? (
-      <motion.span
-        layoutId="nav-pill"
-        className="absolute inset-0 -z-10 rounded-full bg-rose-50"
-        transition={{ type: "spring", stiffness: 500, damping: 36 }}
-      />
-    ) : null;
-
   const handleLogout = async () => {
     setProfileOpen(false);
     setMobileOpen(false);
-    await onLogout?.();
+    // await onLogout?.();
+
+    await authClient.signOut();
   };
 
   return (
@@ -361,14 +362,14 @@ export default function MegaNavbar() {
           >
             <Logo />
 
-            {/* ------------------------- Desktop links ------------------------- */}
+            {/* Desktop links */}
             <ul
               className="hidden items-center gap-1 lg:flex"
               onMouseLeave={() => setHoverLink(null)}
             >
               <li onMouseEnter={() => setHoverLink("home")}>
                 <Link href="/" className={linkClass(isActive("/"))}>
-                  <Pill id="home" />
+                  <SlidingPill visible={hoverLink === "home"} />
                   Home
                 </Link>
               </li>
@@ -389,7 +390,7 @@ export default function MegaNavbar() {
                   aria-expanded={megaOpen}
                   onFocus={openMega}
                 >
-                  <Pill id="services" />
+                  <SlidingPill visible={hoverLink === "services"} />
                   Browse Services
                   <motion.span
                     animate={{ rotate: megaOpen ? 180 : 0 }}
@@ -407,7 +408,7 @@ export default function MegaNavbar() {
                       href="/signin"
                       className={linkClass(isActive("/signin"))}
                     >
-                      <Pill id="signin" />
+                      <SlidingPill visible={hoverLink === "signin"} />
                       Sign In
                     </Link>
                   </li>
@@ -429,7 +430,7 @@ export default function MegaNavbar() {
               )}
             </ul>
 
-            {/* ------------------------- Right side ---------------------------- */}
+            {/* Right side */}
             <div className="flex items-center gap-2">
               {user && (
                 <div ref={profileRef} className="relative hidden lg:block">
@@ -441,9 +442,10 @@ export default function MegaNavbar() {
                     className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 transition-colors hover:bg-rose-50"
                   >
                     <Avatar user={user} />
-                    <span className="max-w-[110px] truncate text-sm font-medium text-neutral-800">
+                    <span className="max-w-27.5 truncate text-sm font-medium text-neutral-800">
                       {user.name}
                     </span>
+
                     <motion.span animate={{ rotate: profileOpen ? 180 : 0 }}>
                       <ChevronDown className="h-4 w-4 text-neutral-500" />
                     </motion.span>
@@ -552,11 +554,11 @@ export default function MegaNavbar() {
           {/* Scroll progress bar */}
           <motion.div
             style={{ scaleX: progress }}
-            className="absolute bottom-0 left-0 h-[2px] w-full origin-left bg-linear-to-r from-rose-300 via-rose-500 to-amber-400"
+            className="absolute bottom-0 left-0 h-0.5 w-full origin-left bg-linear-to-r from-rose-300 via-rose-500 to-amber-400"
           />
         </motion.div>
 
-        {/* ============================ MEGA PANEL ============================ */}
+        {/* MEGA PANEL */}
         <AnimatePresence>
           {megaOpen && (
             <motion.div
@@ -603,6 +605,7 @@ export default function MegaNavbar() {
                                 }}
                               />
                             )}
+
                             <motion.span
                               animate={
                                 hoverCat === name
@@ -613,6 +616,7 @@ export default function MegaNavbar() {
                             >
                               <Icon className="h-5 w-5" />
                             </motion.span>
+
                             <span className="relative">
                               <span className="flex items-center gap-1 text-sm font-semibold text-neutral-900">
                                 {name}
@@ -626,6 +630,7 @@ export default function MegaNavbar() {
                                   <ArrowRight className="h-3.5 w-3.5 text-rose-500" />
                                 </motion.span>
                               </span>
+
                               <span className="text-xs text-neutral-500">
                                 {desc}
                               </span>
@@ -644,6 +649,7 @@ export default function MegaNavbar() {
                     >
                       Popular cities
                     </motion.p>
+
                     <ul className="space-y-1">
                       {POPULAR_LOCATIONS.map((loc) => (
                         <motion.li key={loc} variants={itemVariants}>
@@ -674,7 +680,9 @@ export default function MegaNavbar() {
                       transition={{ duration: 6, repeat: Infinity }}
                       className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/30 blur-2xl"
                     />
+
                     <Heart className="relative mb-3 h-6 w-6 fill-white/90" />
+
                     <h3 className="relative font-serif text-lg font-semibold leading-snug">
                       Plan your dream wedding, stress-free
                     </h3>
@@ -682,6 +690,7 @@ export default function MegaNavbar() {
                       Compare verified vendors and send booking requests in
                       minutes.
                     </p>
+
                     <Link
                       href="/services"
                       className="relative mt-4 inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-semibold text-rose-600 transition-transform hover:scale-105"
@@ -708,7 +717,7 @@ export default function MegaNavbar() {
         )}
       </AnimatePresence>
 
-      {/* ============================ MOBILE DRAWER ============================ */}
+      {/* MOBILE DRAWER */}
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -718,15 +727,16 @@ export default function MegaNavbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 z-[55] bg-neutral-900/40 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-55 bg-neutral-900/40 backdrop-blur-sm lg:hidden"
             />
+
             <motion.aside
               key="drawer"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 34 }}
-              className="fixed right-0 top-0 z-[60] flex h-full w-[85%] max-w-sm flex-col bg-white shadow-2xl lg:hidden"
+              className="fixed right-0 top-0 z-60 flex h-full w-[85%] max-w-sm flex-col bg-white shadow-2xl lg:hidden"
             >
               <div className="flex h-16 items-center justify-between border-b border-rose-100 px-5">
                 <Logo />
@@ -786,6 +796,7 @@ export default function MegaNavbar() {
                       <ChevronDown className="h-4 w-4" />
                     </motion.span>
                   </button>
+
                   <AnimatePresence initial={false}>
                     {mobileServicesOpen && (
                       <motion.div
@@ -802,6 +813,7 @@ export default function MegaNavbar() {
                           >
                             All services
                           </Link>
+
                           {CATEGORIES.map(({ name, icon: Icon }) => (
                             <Link
                               key={name}
@@ -828,6 +840,7 @@ export default function MegaNavbar() {
                         <LayoutDashboard className="h-4 w-4" /> Dashboard
                       </Link>
                     </motion.li>
+
                     <motion.li variants={drawerItem}>
                       <Link
                         href={
@@ -840,6 +853,7 @@ export default function MegaNavbar() {
                         <Settings className="h-4 w-4" /> Profile Settings
                       </Link>
                     </motion.li>
+
                     <motion.li variants={drawerItem}>
                       <button
                         onClick={handleLogout}
@@ -859,6 +873,7 @@ export default function MegaNavbar() {
                         Sign In
                       </Link>
                     </motion.li>
+
                     <motion.li variants={drawerItem} className="pt-2">
                       <Link
                         href="/signup"
