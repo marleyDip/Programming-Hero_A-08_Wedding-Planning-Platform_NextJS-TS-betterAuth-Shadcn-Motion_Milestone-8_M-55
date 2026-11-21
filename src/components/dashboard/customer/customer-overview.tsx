@@ -9,6 +9,17 @@
  * Extras built from the same real data: status donut, "next event" countdown, recent requests.
  */
 
+import {
+  Avatar,
+  STATUS_META,
+  StatusBadge,
+  countBy,
+  daysUntil,
+  formatDate,
+  parseDate,
+  useBookings,
+  useCustomerUser,
+} from "@/components/dashboard/customer/customer-shared";
 import { CountUp, useTilt } from "@/components/home/section-kit";
 import type { Booking, BookingStatus } from "@/lib/bookings-api";
 import { motion, useReducedMotion } from "framer-motion";
@@ -31,17 +42,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import {
-  Avatar,
-  STATUS_META,
-  StatusBadge,
-  countBy,
-  daysUntil,
-  formatDate,
-  parseDate,
-  useBookings,
-  useCustomerUser,
-} from "./customer-shared";
 
 // hero
 function Hero({

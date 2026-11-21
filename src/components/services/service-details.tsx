@@ -324,6 +324,7 @@ function Gallery({
                     src={s.images[index]}
                     alt={`${s.name}, photo ${index + 1} of ${n}`}
                     fill
+                    loading="eager"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     priority={index === 0}
                     onError={() => bad(index)}

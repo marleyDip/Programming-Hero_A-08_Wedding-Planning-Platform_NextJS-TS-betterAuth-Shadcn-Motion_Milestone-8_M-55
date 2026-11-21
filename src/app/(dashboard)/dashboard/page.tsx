@@ -1,45 +1,40 @@
-import DashboardRedirectClient from "@/components/auth/dashboard-redirect-client";
+import {
+  ROLE_HOME,
+  getServerSession,
+  redirectSignedOut,
+  toRole,
+} from "@/lib/session";
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-export const instant = false;
+export const metadata: Metadata = {
+  title: "Dashboard",
+  robots: { index: false, follow: false },
+};
 
-export default function DashboardPage() {
-  return <DashboardRedirectClient />;
+// /dashboard sends everyone to their own dashboard (this is where Google sign-in lands too).
+export default async function DashboardIndex() {
+  const session = await getServerSession();
+
+  if (!session) return redirectSignedOut("/dashboard");
+  if (session.user.isBlocked) redirect("/blocked");
+
+  redirect(ROLE_HOME[toRole(session.user.role)]);
 }
 
-// "use client";
+// import { ROLE_HOME, getServerSession, toRole } from "@/lib/session";
+// import type { Metadata } from "next";
+// import { redirect } from "next/navigation";
 
-// /**
-//  * Place at: app/dashboard/page.tsx
-//  *
-//  * Landing point after Google login (and for the navbar "Dashboard" fallback).
-//  * Sends each user to the dashboard for their role.
-//  */
+// export const metadata: Metadata = {
+//   title: "Dashboard",
+//   robots: { index: false, follow: false },
+// };
 
-// import { dashboardFor } from "@/components/auth/auth-ui";
-// import { authClient } from "@/lib/auth-client";
-// import { motion } from "framer-motion";
-// import { Heart } from "lucide-react";
-// import { useRouter } from "next/navigation";
-// import { useEffect } from "react";
+// // /dashboard sends everyone to their own dashboard (this is where Google sign-in lands too).
+// export default async function DashboardIndex() {
+//   const session = await getServerSession();
+//   if (!session) redirect("/signin?redirect=%2Fdashboard");
 
-// export default function DashboardRedirect() {
-//   const router = useRouter();
-//   const { data: session, isPending } = authClient.useSession();
-
-//   useEffect(() => {
-//     if (isPending) return;
-//     if (!session?.user) return router.replace("/signin");
-//     router.replace(dashboardFor((session.user as { role?: string }).role));
-//   }, [session, isPending, router]);
-
-//   return (
-//     <div className="grid min-h-screen place-items-center">
-//       <motion.div
-//         animate={{ scale: [1, 1.25, 1] }}
-//         transition={{ duration: 1.2, repeat: Infinity }}
-//       >
-//         <Heart className="h-10 w-10 fill-brand text-brand" />
-//       </motion.div>
-//     </div>
-//   );
+//   redirect(ROLE_HOME[toRole((session.user as { role?: unknown }).role)]);
 // }

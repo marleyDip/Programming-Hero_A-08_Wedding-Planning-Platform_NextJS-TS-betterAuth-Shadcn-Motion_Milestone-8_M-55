@@ -58,7 +58,7 @@ export default function AppToaster() {
           description: "!text-xs !leading-5 !text-muted-foreground",
 
           closeButton:
-            "!left-auto !right-2 !top-2 !size-6 !transform-none !rounded-full !border !border-border !bg-card !text-muted-foreground !opacity-100 !backdrop-blur-md !transition-all !duration-200 hover:!scale-110 hover:!bg-accent hover:!text-foreground active:!scale-95",
+            "!left-auto !right-2 !top-2 !size-6 !transform-none rounded-full! !border !border-border !bg-card !text-muted-foreground !opacity-100 !backdrop-blur-md !transition-all !duration-200 hover:!scale-110 hover:!bg-accent hover:!text-foreground active:!scale-95",
 
           actionButton:
             "!h-8 !rounded-lg !bg-[linear-gradient(90deg,var(--logo-from),var(--logo-to))] !px-3 !text-xs !font-semibold !text-(--logo-fg) !shadow-md !transition-all !duration-200 hover:!-translate-y-0.5 active:!translate-y-0 active:!scale-95",

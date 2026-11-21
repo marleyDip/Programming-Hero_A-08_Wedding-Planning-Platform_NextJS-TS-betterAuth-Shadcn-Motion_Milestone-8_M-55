@@ -23,7 +23,7 @@ export interface SelectOption {
 }
 
 interface Props {
-  label: string;
+  label?: string;
   value: string;
   onChange: (value: string) => void;
   options: SelectOption[];
@@ -140,12 +140,14 @@ export default function FancySelect({
       ref={root}
       className={`relative ${open ? "z-40" : "z-10"} ${className}`}
     >
-      <span
-        id={`${id}-label`}
-        className="mb-1.5 block px-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground"
-      >
-        {label}
-      </span>
+      {label && (
+        <span
+          id={`${id}-label`}
+          className="mb-1.5 block px-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground"
+        >
+          {label}
+        </span>
+      )}
 
       <motion.button
         type="button"
@@ -153,7 +155,8 @@ export default function FancySelect({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={`${id}-list`}
-        aria-labelledby={`${id}-label`}
+        aria-label={label ?? "Select an option"}
+        aria-labelledby={label ? `${id}-label` : undefined}
         aria-activedescendant={open ? `${id}-opt-${hi}` : undefined}
         onClick={() => (open ? setOpen(false) : openMenu())}
         onKeyDown={onKeyDown}
@@ -200,7 +203,8 @@ export default function FancySelect({
           <motion.ul
             id={`${id}-list`}
             role="listbox"
-            aria-labelledby={`${id}-label`}
+            aria-label={label ?? "Select an option"}
+            aria-labelledby={label ? `${id}-label` : undefined}
             initial={
               reduce
                 ? { opacity: 0 }
