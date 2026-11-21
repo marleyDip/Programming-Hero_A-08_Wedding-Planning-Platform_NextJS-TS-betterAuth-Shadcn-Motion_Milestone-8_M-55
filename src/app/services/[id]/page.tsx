@@ -7,7 +7,9 @@
  */
 
 import ServiceDetails from "@/components/services/service-details";
+import ServiceDetailsSkeleton from "@/components/services/service-details-skeleton";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Service Details | WedPlan",
@@ -15,15 +17,38 @@ export const metadata: Metadata = {
     "View photos, pricing and vendor information, then send a booking request.",
 };
 
-export default async function ServiceDetailsPage({
-  params,
-}: {
+type ServiceDetailsPageProps = {
   params: Promise<{ id: string }>;
-}) {
+};
+
+// Server Component: keeps URL parameter access inside Suspense.
+async function ServiceDetailsContent({ params }: ServiceDetailsPageProps) {
   const { id } = await params;
+
+  return <ServiceDetails id={id} />;
+}
+
+export default function ServiceDetailsPage({
+  params,
+}: ServiceDetailsPageProps) {
   return (
     <main>
-      <ServiceDetails id={id} />
+      <Suspense fallback={<ServiceDetailsSkeleton />}>
+        <ServiceDetailsContent params={params} />
+      </Suspense>
     </main>
   );
 }
+
+// export default async function ServiceDetailsPage({
+//   params,
+// }: {
+//   params: Promise<{ id: string }>;
+// }) {
+//   const { id } = await params;
+//   return (
+//     <main>
+//       <ServiceDetails id={id} />
+//     </main>
+//   );
+// }
