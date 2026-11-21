@@ -1,7 +1,7 @@
 /**
  * Place at: lib/auth-client.ts
  *
- * Env (client):  NEXT_PUBLIC_AUTH_URL=http://localhost:3000   // wherever Better Auth is served
+ * Env (client):  BETTER_AUTH_URL=http://localhost:3000   // wherever Better Auth is served
  */
 import { inferAdditionalFields, jwtClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";

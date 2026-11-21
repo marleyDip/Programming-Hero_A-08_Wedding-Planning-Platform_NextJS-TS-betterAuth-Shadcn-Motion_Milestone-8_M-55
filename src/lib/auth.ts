@@ -10,7 +10,7 @@ const db = client.db("wedding-planning-platform");
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL, // also used as the JWT issuer and audience
   secret: process.env.BETTER_AUTH_SECRET,
-  trustedOrigins: [process.env.CLIENT_URL as string],
+  // trustedOrigins: [process.env.CLIENT_URL as string],
 
   database: mongodbAdapter(db, { client }),
 
@@ -128,6 +128,12 @@ export const auth = betterAuth({
 
           return { data };
         },
+
+        // after: async (user, ctx) => {
+        //   if ((user as { isBlocked?: boolean }).isBlocked) {
+        //     await ctx?.context.internalAdapter.deleteSessions(user.id);
+        //   }
+        // },
       },
     },
 
@@ -151,14 +157,17 @@ export const auth = betterAuth({
     },
   },
 
+  // plugins: [jwt(), nextCookies()],
   plugins: [jwt()],
 
   session: {
+    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24, // refresh expiry every 24 hours
     cookieCache: {
       enabled: true,
       strategy: "jwt",
-      maxAge: 5 * 24 * 60 * 60, // 5 days
-      // maxAge: 5 * 60, // 5 minutes, so a block or role change shows up quickly
+      // maxAge: 5 * 24 * 60 * 60, // 5 days
+      maxAge: 5 * 60, // 5 minutes, so a block or role change shows up quickly
     },
   },
 });

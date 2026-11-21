@@ -345,7 +345,7 @@
       "location": "Sylhet",
       "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80",
       "description": "Waiting for admin approval.",
-      "status": "pending",
+      "status": "approved",
       "isActive": true,
       "vendorId": "u-vendor-5",
       "rating": 0,
@@ -356,7 +356,8 @@
         "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=900&q=80",
         "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80",
         "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=80"
-      ]
+      ],
+      "reviewedAt": "2026-11-20T06:35:03.357Z"
     },
     {
       "id": "svc-014",
@@ -532,6 +533,41 @@
       "image": "https://i.pravatar.cc/160?img=52",
       "status": "approved",
       "sample": true
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx_1",
+      "vendorId": "REPLACE_WITH_A_VENDOR_USER_ID",
+      "plan": "premium",
+      "amount": 1999,
+      "currency": "usd",
+      "stripeSessionId": "cs_test_sample_0001",
+      "stripeSubscriptionId": "sub_sample_0001",
+      "status": "paid",
+      "createdAt": "2026-11-02T09:14:00.000Z"
+    },
+    {
+      "id": "tx_2",
+      "vendorId": "REPLACE_WITH_A_VENDOR_USER_ID",
+      "plan": "premium",
+      "amount": 1999,
+      "currency": "usd",
+      "stripeSessionId": "cs_test_sample_0002",
+      "stripeSubscriptionId": null,
+      "status": "failed",
+      "createdAt": "2026-11-09T15:40:00.000Z"
+    },
+    {
+      "id": "tx_3",
+      "vendorId": "REPLACE_WITH_A_VENDOR_USER_ID",
+      "plan": "premium",
+      "amount": 1999,
+      "currency": "usd",
+      "stripeSessionId": "cs_test_sample_0003",
+      "stripeSubscriptionId": null,
+      "status": "pending",
+      "createdAt": "2026-11-16T11:05:00.000Z"
     }
   ],
   "bookings": [
